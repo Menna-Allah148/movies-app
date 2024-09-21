@@ -1,60 +1,63 @@
 class RegisterResponse {
-  String? message;
-  User? user;
-  String? token;
-  String? statusMsg;
-  RegisterResponse({this.message, this.user, this.token,this.statusMsg});
+    RegisterResponse({
+        required this.message,
+        required this.user,
+        required this.token,
+         this.statusMsg,
+    });
 
-  RegisterResponse.fromJson(Map<String, dynamic> json) {
-    if (json["message"] is String) {
-      message = json["message"];
-    }
-     if (json["statusMsg"] is String) {
-      statusMsg = json["statusMsg"];
-    }
-    if (json["user"] is Map) {
-      user = json["user"] == null ? null : User.fromJson(json["user"]);
-    }
-    if (json["token"] is String) {
-      token = json["token"];
-    }
-  }
+    final String? message;
+    final User? user;
+    final String? token;
+    final String? statusMsg;
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> _data = <String, dynamic>{};
-    _data["message"] = message;
-    if (user != null) {
-      _data["user"] = user?.toJson();
+    factory RegisterResponse.fromJson(Map<String, dynamic> json){ 
+        return RegisterResponse(
+            message: json["message"],
+            user: json["user"] == null ? null : User.fromJson(json["user"]),
+            token: json["token"],
+        );
     }
-    _data["token"] = token;
-    return _data;
-  }
+
+    Map<String, dynamic> toJson() => {
+        "message": message,
+        "user": user?.toJson(),
+        "token": token,
+    };
+
+    @override
+    String toString(){
+        return "$message, $user, $token, ";
+    }
 }
 
 class User {
-  String? name;
-  String? email;
-  String? role;
+    User({
+        required this.name,
+        required this.email,
+        required this.role,
+    });
 
-  User({this.name, this.email, this.role});
+    final String? name;
+    final String? email;
+    final String? role;
 
-  User.fromJson(Map<String, dynamic> json) {
-    if (json["name"] is String) {
-      name = json["name"];
+    factory User.fromJson(Map<String, dynamic> json){ 
+        return User(
+            name: json["name"],
+            email: json["email"],
+            role: json["role"],
+        );
     }
-    if (json["email"] is String) {
-      email = json["email"];
-    }
-    if (json["role"] is String) {
-      role = json["role"];
-    }
-  }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> _data = <String, dynamic>{};
-    _data["name"] = name;
-    _data["email"] = email;
-    _data["role"] = role;
-    return _data;
-  }
+    Map<String, dynamic> toJson() => {
+        "name": name,
+        "email": email,
+        "role": role,
+    };
+
+    @override
+    String toString(){
+        return "$name, $email, $role, ";
+    }
 }

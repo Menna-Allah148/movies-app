@@ -1,74 +1,89 @@
-//import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
 
+import 'package:e_commerce_app/utils/my_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DialogUtils {
-  static void showLoading(
-      {required BuildContext context,
-      required String loadingLabel,
-      bool barrierDismissible = true}) {
+  static void showLoading(BuildContext context, {required String message}) {
     showDialog(
-        barrierDismissible: barrierDismissible,
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            content: Row(
-              children: [
-                CircularProgressIndicator(),
-                SizedBox(width: 8),
-                Text(loadingLabel,
-                    style: Theme.of(context).textTheme.bodyMedium)
-              ],
+      barrierDismissible: false,
+      context: context,
+      builder: (context) => AlertDialog(
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const CircularProgressIndicator(
+              color: MyColors.blueColor,
             ),
-          );
-        });
+            SizedBox(
+              width: 20.w,
+            ),
+            Text(
+              message,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.copyWith(fontSize: 17, color: MyColors.blueColor),
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   static void hideLoading(BuildContext context) {
     Navigator.pop(context);
   }
 
-  static void showMessage(
-      {required BuildContext context,
-      required String contents,
-      String title = 'Title',
+  static void showMessage(BuildContext context,
+      {required String? title,
+      required String content,
       String? posActionName,
+      TextStyle? posActionNameStyle,
       Function? posAction,
       String? negActionName,
-      Function? negAction}) {
+      Function? negAction,
+      TextStyle? negActionNameStyle}) {
     List<Widget> actions = [];
+
     if (posActionName != null) {
-      actions.add(
-        ElevatedButton(
+      actions.add(TextButton(
           onPressed: () {
             Navigator.pop(context);
-            posAction?.call();
+            posAction?.call(); // excute the [posAction] if it != null
           },
-          child: Text(posActionName),
-        ),
-      );
-    }
-    if (negActionName != null) {
-      actions.add(ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context);
-            /*if (negAction != null) {
-              negAction.call();
-            }*/
-            negAction?.call();
-          },
-          child: Text(negActionName)));
+          child: Text(
+            posActionName,
+            style: posActionNameStyle,
+          )));
+      if (negActionName != null) {
+        actions.add(TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              negAction?.call(); // excute the [negAction] if it != null
+            },
+            child: Text(
+              negActionName,
+              style: negActionNameStyle,
+            )));
+      }
     }
     showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-              content: Text(
-                contents,
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-              title: Text(title, style: Theme.of(context).textTheme.bodySmall),
-              actions: actions);
-        });
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          title ?? "",
+          style: Theme.of(context)
+              .textTheme
+              .titleMedium
+              ?.copyWith(fontSize: 20.sp, color: MyColors.blueColor),
+        ),
+        content: Text(
+          content,
+          style: Theme.of(context).textTheme.titleSmall,
+        ),
+        actions: actions,
+      ),
+    );
   }
 }

@@ -1,53 +1,26 @@
-import 'dart:convert';
-
 class LoginRequest {
-  final String email;
-  final String password;
-  LoginRequest({
-    required this.email,
-    required this.password,
-  });
+    LoginRequest({
+        required this.email,
+        required this.password,
+    });
 
-  LoginRequest copyWith({
-    String? email,
-    String? password,
-  }) {
-    return LoginRequest(
-      email: email ?? this.email,
-      password: password ?? this.password,
-    );
-  }
+    final String? email;
+    final String? password;
 
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'email': email,
-      'password': password,
+    factory LoginRequest.fromJson(Map<String, dynamic> json){ 
+        return LoginRequest(
+            email: json["email"],
+            password: json["password"],
+        );
+    }
+
+    Map<String, dynamic> toJson() => {
+        "email": email,
+        "password": password,
     };
-  }
 
-  factory LoginRequest.fromMap(Map<String, dynamic> map) {
-    return LoginRequest(
-      email: map['email'] as String,
-      password: map['password'] as String,
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory LoginRequest.fromJson(String source) => LoginRequest.fromMap(json.decode(source) as Map<String, dynamic>);
-
-  @override
-  String toString() => 'LoginRequest(email: $email, password: $password)';
-
-  @override
-  bool operator ==(covariant LoginRequest other) {
-    if (identical(this, other)) return true;
-  
-    return 
-      other.email == email &&
-      other.password == password;
-  }
-
-  @override
-  int get hashCode => email.hashCode ^ password.hashCode;
+    @override
+    String toString(){
+        return "$email, $password, ";
+    }
 }

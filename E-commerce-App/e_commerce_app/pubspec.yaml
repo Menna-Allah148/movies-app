@@ -38,6 +38,9 @@ dependencies:
   flutter_lints: ^2.0.0
   http: ^1.1.0
   flutter_bloc: ^8.1.6
+  flutter_screenutil: ^5.9.3
+  flutter_image_slideshow: ^0.1.6
+  cached_network_image: ^3.3.1
 
 dev_dependencies:
   flutter_test:
@@ -74,10 +77,24 @@ flutter:
   uses-material-design: true
   assets:
     - lib/images/route_logo.png
-    - lib/images/HeadPhone.png
+   
     - lib/images/route.png
-    - lib/images/headphone2.png
+   
     - lib/images/laptop.jpg
+    - lib/images/var1.png
+    - lib/images/var2.png
+    - lib/images/var3.png
+    - lib/images/cart_icon.png
+    - lib/images/search_icon.png
+    - lib/images/Headphone (2).png
+    - lib/images/star.png
+  # fonts:
+  #   - family: Poppins
+  #     fonts:
+  #       - asset: assets/fonts/Poppins-Light.ttf
+  #       - asset: assets/fonts/Poppins-Regular.ttf
+  #       - asset: assets/fonts/Poppins-Medium.ttf
+  #       - asset: assets/fonts/Poppins-SemiBold.ttf
 
   #   - images/a_dot_ham.jpeg
 

@@ -1,6 +1,8 @@
 import 'package:e_commerce_app/cubit/login_cubit.dart';
 import 'package:e_commerce_app/cubit/login_states.dart';
+import 'package:e_commerce_app/home/home_screen_view.dart';
 import 'package:e_commerce_app/utils/dialog_utils.dart';
+import 'package:e_commerce_app/utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -29,27 +31,19 @@ class _LoginScreenState extends State<LoginScreen> {
       child: BlocListener<LoginCubit, LoginStates>(
           listener: (context, state) {
             if (state is LoginLoadingState) {
-              DialogUtils.showLoading(
-                  context: context, loadingLabel: 'Loading.....');
-            } else if (state is LoginErrorState) {
-             
-              DialogUtils.hideLoading(context);
-              DialogUtils.showMessage(
-                  context: context,
-                  contents: "Invalid email or password",
-                  posActionName: 'Ok',
-                  title: "Error");
-            } else if (state is LoginSuccessState) {
-              DialogUtils.showMessage(
-                  context: context,
-                  contents: 'login Successfully!',
-                  posActionName: 'Ok',
-                  title: "Success");
-            }
-          },
+          DialogUtils.showLoading(context, message: "Loading...");
+        } else if (state is LoginErrorState) {
+          DialogUtils.hideLoading(context);
+          DialogUtils.showMessage(context,
+              title: "Error", content: state.errorMessage ?? "");
+        } else if (state is LoginSuccessState) {
+          DialogUtils.hideLoading(context);
+       
+          Navigator.pushReplacementNamed(context, HomeScreenView.routeName);
+        }},
           child: Scaffold(
             backgroundColor:
-                Color(0xFF004182), // Same dark blue background color
+                MyColors.blueColor, // Same dark blue background color
             body: Center(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -132,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             labelStyle:
                                 TextStyle(color: Colors.black, fontSize: 14),
                             filled: true,
-                            fillColor: Colors.white,
+                            fillColor: MyColors.whiteColor,
                             suffixIcon: IconButton(
                               icon: Icon(
                                 cubit.isObscure
@@ -175,7 +169,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white, // White button color
+                            backgroundColor: MyColors.whiteColor, // White button color
                             padding: EdgeInsets.symmetric(vertical: 16),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
@@ -183,7 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           child: Text(
                             'Login',
-                            style: TextStyle(color: Colors.blue[900]),
+                            style: TextStyle(color:MyColors.blueColor),
                           ),
                         ),
                         SizedBox(height: 16),
@@ -194,10 +188,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                           child: Text(
                             "Don't have an account? Create Account",
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: MyColors.whiteColor,
                           ),
                         ),
-                      ],
+                     ) ],
                     ),
                   ),
                 ),

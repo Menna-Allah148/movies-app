@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/cubit/register_cubit.dart';
 import 'package:e_commerce_app/cubit/register_states.dart';
+import 'package:e_commerce_app/home/home_screen_view.dart';
 import 'package:e_commerce_app/utils/dialog_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,23 +29,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
       create: (context)=> cubit,
       child: BlocListener<RegisterCubit, RegisterStates>(
           listener: (context, state) {
-            if (state is RegisterLoadingState) {
-              DialogUtils.showLoading(
-                  context: context, loadingLabel: 'Loading.....');
-            } else if (state is RegisterErrorState) {
-              DialogUtils.hideLoading(context);
-              DialogUtils.showMessage(
-                  context: context,
-                  contents: state.errorMessage,
-                  posActionName: 'Ok',
-                  title: "Error");
-            } else if (state is RegisterSuccessState) {
-              DialogUtils.showMessage(
-                  context: context,
-                  contents: 'Register Successfully!',
-                  posActionName: 'Ok',
-                  title: "Success");
-            }
+             if (state is RegisterLoadingState) {
+            DialogUtils.showLoading(context, message: "Loading...");
+          } else if (state is RegisterErrorState) {
+            DialogUtils.hideLoading(context);
+            DialogUtils.showMessage(context,
+                title: "Error", content: state.errorMessage ?? "");
+          } else if (state is RegisterSuccessState) {
+            DialogUtils.hideLoading(context);
+            // DialogUtils.showMessage(context,
+            //     title: "Register Successeded",
+            //     content: state.registerResponseEntitiy?.user?.name ?? "");
+            Navigator.pushReplacementNamed(context, HomeScreenView.routeName);
+          }
           },
           child: Scaffold(
             backgroundColor: Color(0xFF004182), // Same dark blue background color
